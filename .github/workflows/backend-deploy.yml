@@ -1,0 +1,26 @@
+name: 🚀 Backend Deployment
+
+on:
+  push:
+    branches:
+      - main  # Deploy when changes are pushed to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy to Self-Hosted Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }} # Your server IP/Domain
+          username: ${{ secrets.SERVER_USER }} # SSH Username
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # SSH Key (Use GitHub Secrets)
+          script: |
+            cd /path/to/your/project  # Change to your backend directory
+            git pull origin main  # Pull latest changes
+            npm install  # Install dependencies
+            pm2 restart server.js  # Restart the Node.js server (or use another method)
