@@ -1,0 +1,25 @@
+name: 🚀 Deploy React Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Deploy when changes are pushed to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Install and Build React
+        run: |
+          npm install
+          npm run build
+
+      - name: 📦 Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Deploy to the `gh-pages` branch
+          folder: build  # React output folder
